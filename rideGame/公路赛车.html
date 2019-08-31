@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>公路赛车</title>
+    <link rel="shortcut icon" href="../html/案例/小米闪购/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/css.css">
+</head>
+
+<body>
+    <div id="container">
+        <!-- 三道白线 -->
+        <div class="line" id="line1"></div>
+        <div class="line" id="line2"></div>
+        <div class="line" id="line3"></div>
+        <!-- 几辆车 -->
+        <div class="car" id="car">
+            <!-- 前后车窗 -->
+            <div class="f_class"></div>
+            <div class="b_class"></div>
+            <!-- 左右灯光 -->
+            <div class="light_l"></div>
+            <div class="light_r"></div>
+            <!-- 四个轮子 -->
+            <div class="f_tyle_l"></div>
+            <div class="f_tyle_r"></div>
+            <div class="b_tyle_l"></div>
+            <div class="b_tyle_r"></div>
+        </div>
+        <div class="car" id="carBlue1">
+            <!-- 前后车窗 -->
+            <div class="f_class"></div>
+            <div class="b_class"></div>
+            <!-- 左右灯光 -->
+            <div class="light_l"></div>
+            <div class="light_r"></div>
+            <!-- 四个轮子 -->
+            <div class="f_tyle_l"></div>
+            <div class="f_tyle_r"></div>
+            <div class="b_tyle_l"></div>
+            <div class="b_tyle_r"></div>
+        </div>
+        <div class="car" id="carBlue2">
+            <!-- 前后车窗 -->
+            <div class="f_class"></div>
+            <div class="b_class"></div>
+            <!-- 左右灯光 -->
+            <div class="light_l"></div>
+            <div class="light_r"></div>
+            <!-- 四个轮子 -->
+            <div class="f_tyle_l"></div>
+            <div class="f_tyle_r"></div>
+            <div class="b_tyle_l"></div>
+            <div class="b_tyle_r"></div>
+        </div>
+        <div class="car" id="carBlue3">
+            <!-- 前后车窗 -->
+            <div class="f_class"></div>
+            <div class="b_class"></div>
+            <!-- 左右灯光 -->
+            <div class="light_l"></div>
+            <div class="light_r"></div>
+            <!-- 四个轮子 -->
+            <div class="f_tyle_l"></div>
+            <div class="f_tyle_r"></div>
+            <div class="b_tyle_l"></div>
+            <div class="b_tyle_r"></div>
+        </div>
+        <div id=restart_div>
+            <button id="restart">
+                刘雨滨是个傻子
+            </button>
+        </div>
+    </div>
+
+    <script>
+        //  获取斑马线
+        var line1 = document.querySelector('#line1');
+        var line2 = document.querySelector('#line2');
+        var line3 = document.querySelector('#line3');
+        //黄色和蓝色车子
+        var car = document.querySelector('#car');
+        var carBlue1 = document.querySelector('#carBlue1');
+        var carBlue2 = document.querySelector('#carBlue2');
+        var carBlue3 = document.querySelector('#carBlue3');
+        // 获取主容器 按钮容器 及按钮
+        var container = document.querySelector('#container');
+        var restart_div = document.querySelector('#restart_div');
+        var restart = document.querySelector('#restart');
+        //获取主容器的样式
+        var container_style = getComputedStyle(container);
+        var container_width = parseInt(container_style.width);
+        var container_height = parseInt(container_style.height);
+        // 获取车子的样式
+        var car_style = getComputedStyle(carBlue1);
+        var car_width = parseInt(car_style.width);
+        var car_height = parseInt(car_style.height);
+        //设置速度初始变量
+        var speed_line = 5;
+        var speed_car = 2;
+        //初始frameid的变量
+        var anim_left = false;
+        var anim_right = false;
+        var anim_up = false;
+        var anim_down = false;
+        var anim_id;
+        //初始游戏结束的接收值 flag
+        game_over = false;
+        //计数器 多长事件增加一次速度
+        var counter = 0;
+
+        //事件绑定
+        //点击重新开始
+        restart.addEventListener('click', function () {
+            //重新加载(刷新)
+            location.reload();
+        })
+
+        //按键   按下的事件  控制车子 上下左右
+        document.addEventListener('keydown', function (e) {
+            if (game_over === false) {
+                if (e.code === 'ArrowLeft' && anim_left === false) {
+                    anim_left = requestAnimationFrame(left);
+                }
+                else if (e.code === 'ArrowRight' && anim_right === false) {
+                    anim_right = requestAnimationFrame(right);
+                }
+                else if (e.code === 'ArrowDown' && anim_down === false) {
+                    anim_down = requestAnimationFrame(down);
+                }
+                else if (e.code === 'ArrowUp' && anim_up === false) {
+                    anim_up = requestAnimationFrame(up);
+                }
+            }
+        })
+
+        //按键   松开的事件  控制车子 上下左右
+        document.addEventListener('keyup', function (e) {
+            if (game_over === false) {
+                if (e.code === 'ArrowLeft') {
+                    cancelAnimationFrame(anim_left);
+                    anim_left = false;
+                } else if (e.code === 'ArrowRight') {
+                    cancelAnimationFrame(anim_right);
+                    anim_right = false;
+                } else if (e.code === 'ArrowDown') {
+                    cancelAnimationFrame(anim_down);
+                    anim_down = false;
+                } else if (e.code === 'ArrowUp') {
+                    cancelAnimationFrame(anim_up);
+                    amim_up = false;
+                }
+            }
+        })
+
+        // 小黄车向左运动的函数
+        function left() {
+            var car_current_left = parseInt(getComputedStyle(car).left);
+            if (car_current_left > 0) {
+                car.style.left = car_current_left - 5 + 'px';
+                anim_left = requestAnimationFrame(left);
+            }
+        }
+
+        //    小黄车向右运动的函数
+        function right() {
+            var car_current_left = parseInt(getComputedStyle(car).left);
+            if (car_current_left < (container_width - car_width)) {
+                car.style.left = car_current_left + 5 + 'px';
+                anim_right = requestAnimationFrame(right);
+            }
+        }
+
+        //  小黄车向上运动的函数
+        function up() {
+            var car_current_top = parseInt(getComputedStyle(car).top);
+            if (car_current_top > 0) {
+                car.style.top = car_current_top - 3 + 'px';
+                anim_up = requestAnimationFrame(up);
+            }
+        }
+
+        //  小黄车向下运动的函数
+        function down() {
+            var car_current_top = parseInt(getComputedStyle(car).top);
+            if (car_current_top < (container_height - car_height)) {
+                car.style.top = car_current_top + 3 + 'px';
+                anim_down = requestAnimationFrame(down);
+            }
+        }
+
+        //  动画
+        anim_id = requestAnimationFrame(repeat);
+
+        function repeat() {
+            //碰撞检测
+            //如果碰撞
+            if (collision(car, carBlue1) || collision(car, carBlue2) || collision(car, carBlue3)) {
+                cancelAnimationFrame(anim_id);
+                cancelAnimationFrame(anim_down);
+                cancelAnimationFrame(anim_up);
+                cancelAnimationFrame(anim_left);
+                cancelAnimationFrame(anim_right);
+                game_over = true;
+                restart_div.style.display = 'block';
+                return;
+            }
+
+            counter++
+            if (counter % 200 === 0) {
+                speed_line++;
+                speed_car++;
+            }
+            // 没有碰撞到 则蓝车继续按规律运动  斑马线按常往下掉
+            car_down(carBlue1);
+            car_down(carBlue2);
+            car_down(carBlue3);
+            line_down(line1);
+            line_down(line2);
+            line_down(line3);
+            anim_id = requestAnimationFrame(repeat);
+        }
+
+        //碰撞检测所根据的函数 碰撞函数
+        function collision(yellowCar, blueCar) {
+            // 第一个参数的属性
+            var yellowCar_style = getComputedStyle(yellowCar);
+            var yellowCar_top = parseInt(yellowCar_style.top);
+            var yellowCar_left = parseInt(yellowCar_style.left);
+            var yellowCar_width = parseInt(yellowCar_style.width);
+            var yellowCar_height = parseInt(yellowCar_style.height);
+            var yellowCar_bottom = yellowCar_top + yellowCar_height;
+            var yellowCar_right = yellowCar_left + yellowCar_width;
+
+            // 第二个参数的属性
+            var blueCar_style = getComputedStyle(blueCar);
+            var blueCar_top = parseInt(blueCar_style.top);
+            var blueCar_left = parseInt(blueCar_style.left);
+            var blueCar_width = parseInt(blueCar_style.width);
+            var blueCar_height = parseInt(blueCar_style.height);
+            var blueCar_bottom = blueCar_top + blueCar_height;
+            var blueCar_right = blueCar_left + blueCar_width;
+            if (yellowCar_right < blueCar_left || yellowCar_left > blueCar_right
+                || yellowCar_bottom < blueCar_top || yellowCar_top > blueCar_bottom) {
+                return false;
+            }
+            return true;
+        }
+
+        //斑马线向下运动
+        function line_down(line) {
+            var line_current_top = parseInt(getComputedStyle(line).top);
+            if (line_current_top > container_height) {
+                line_current_top = -150;
+            }
+            line.style.top = line_current_top + speed_line + 'px';
+        }
+
+        //蓝车向下运动
+        function car_down(car) {
+            var car_current_top = parseInt(getComputedStyle(car).top);
+            if (car_current_top > container_height) {
+                car.style.left = Math.random() * (container_width - car_width) + 'px';
+                car_current_top = -200;
+            }
+            car.style.top = car_current_top + speed_car + 'px';
+        }
+    </script>
+</body>
+
+</html>
