@@ -1,0 +1,124 @@
+   /* 主容器初始化 */
+.jd_category{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    /* background: #68ff8e; */
+}
+
+    /* 通栏设置 */
+.jd_torBar{
+     position: absolute;
+     width: 100%;
+     height: 45px;
+     border-bottom: 1px solid #ddd;
+     /* background: #ff6666; */
+}
+.jd_torBar a{
+      width: 40px;
+      height: 44px;
+      /* background-origin: content-box;
+      background-clip: content-box; */
+      position: absolute;
+      top: 0;       
+}
+.jd_torBar .icon_back{
+      left: 0;
+      background: url(../images/icon_back.png) no-repeat;
+      background-size: 40px 44px;
+}
+.jd_torBar .icon_menu{
+      right: 0;
+      background: url(../images/icon_menu.png) no-repeat;
+      background-size: 40px 44px;
+}
+.jd_torBar form{
+      width: 100%;
+      padding: 0 40px;
+} 
+.jd_torBar form input{
+      padding: 5px;
+      width: 100%;
+      height: 30px;
+      margin-top:7px;
+      border-radius: 15px;
+      border:1px solid #ddd;
+}
+
+    /* 主体初始化 */
+.jd_main{
+        width: 100%;
+        height: 100%;
+        padding-top:45px;
+}
+.jd_left{
+        width: 90px;
+        height: 100%;
+        padding-top: 10px;
+        /* background: #ff6666; */
+}
+.jd_left ul{
+         width: 90px;
+}
+.jd_left ul li{
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+}
+.jd_left ul li a{
+       display: block;
+}
+.jd_left ul li.now{
+        border-right: none;
+}
+.jd_left ul li.now a{
+    color: #ff6666;
+}
+.jd_right{
+      padding: 10px;
+      height: 100%;
+      overflow: hidden;
+      /* background: #eeee00; */
+}
+ .jd_right_box{
+          width: 100%;
+          padding: 0 10px;
+}
+.jd_right_box .banner{
+      width: 100%;
+      margin-top: 10px;
+}
+.jd_right_box .banner img{
+           display: block;
+           width: 100%;
+}
+.jd_right_box .hot_category{
+        margin-top: 10px;
+}
+.jd_right_box .hot_category h3{
+       font-size: 12px;
+}
+.jd_right_box .hot_category ul{
+       width: 100%;
+}
+.jd_right_box .hot_category ul li{
+        width: 33.3333%;
+        float: left;
+}
+.jd_right_box .hot_category ul li a{
+       width: 100%;
+       display: block;
+}
+.jd_right_box .hot_category ul li a img{
+          width: 60px;
+          height: 60px;
+          margin: 0 auto;
+}
+.jd_right_box .hot_category ul li a p{
+        text-align: center;
+        padding: 5px;
+        font-size: 12px;
+}
