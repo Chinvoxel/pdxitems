@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>海绵宝宝杂货铺</title>
+    <link rel="icon" href="images/jdlogo.png" type="images/x-ico" />
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 头部 导航栏 -->
+        <nav class="navbar nav_padding">
+            <div class="container" id="nav_store">
+                <a class="nav_hot1 navbar-brand" href="#"><span class="store_icon nav_logo"></span>全部商品
+                </a>
+                <label>
+                    搜索: <input type="text" v-model='keywords'>
+                </label>
+                <a class='navbar-brand navbar-right' href="#">个人<span class="store_icon nav_login "></span></a>
+            </div>
+        </nav>
+
+        <!-- 主题内容 货品信息 -->
+        <div class="container bg-warning main_content">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" @click='allChecked' v-model:checked='flag'> 全选</th>
+                        <th>名称</th>
+                        <th>商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <!-- 动画 -->
+                    <transition-group>
+                        <tr v-for='item in search(keywords)' :key='item.name' v-show='item.show'>
+                            <td><input type="checkbox" :checked='flag'><img :src='item.src'></td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.introduce}}</td>
+                            <td>{{item.price}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" @click='reduce(item.name)'>-</button>
+                                    <input type="button" class="fix_size btn btn-default" v-model:value='item.quantity'>
+                                    <button type="button" class="btn btn-default" @click='add(item.name)'>+</button>
+                                </div>
+                            </td>
+                            <td>
+                                {{item.total}}
+                            </td>
+                            <td @click='del(item.name)'>{{item.operation}}</td>
+                        </tr>
+                    </transition-group>
+                </tbody>
+            </table>
+
+            <!-- 页脚内容 结算信息 -->
+            <button class="pull-right btn btn-danger btn-lg" type="button" @click='LYB=!LYB'>
+                清空购物车<span class="store_icon glyphicon glyphicon-shopping-cart"
+                    style="color: rgb(226, 214, 214)"></span>
+            </button>
+            <button class="fix_total pull-right btn btn-danger btn-lg" type="button">
+                合计: <span class="info">{{totalPrice}}元</span>
+            </button>
+            <button class="pull-right btn btn-danger btn-lg" type="button">
+                已选择<span class="badge info">{{giao}}</span> 商品
+            </button>
+
+            <transition 
+            @before-enter='beforeEnter' 
+            @enter='enter'
+            @after-enter='afterEnter'>
+                <div class="anipay" v-show='LYB'>
+                     <span class="store_icon glyphicon glyphicon-qrcode"></span>
+                </div>
+            </transition>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                LYB:false,
+                flag: false,
+                //单个货物购买属灵
+                keywords: '',
+                msg: 5,
+                // keywords: '',
+                list: [
+                    { name: '蟹黄堡', price: 50, src: 'images/5b7cb4b6Nce1debe2.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '雪梨', price: 20, src: 'images/5adef3e6N3b3d085a.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '甘蔗', price: 30, src: 'images/5b6299fdNa2588a6a.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '西瓜', price: 20, src: 'images/5bc040b3N96bdc3cd.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '蓝莓', price: 50, src: 'images/5b779a23N8e4604a5.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '草莓', price: 50, src: 'images/5b779a23N8e4604a5.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true },
+                    { name: '木瓜', price: 50, src: 'images/5b779a23N8e4604a5.jpg', introduce: '欢迎来到派大星比基尼海滩', operation: '删除', quantity: 0, total: 0, show: true }
+                ]
+            },
+
+            methods: {
+                // 动画
+                beforeEnter(el) {
+                    el.style.opacity=0
+                    el.style.transform = 'translate(0,0)'
+                },
+                enter(el,done) {
+                    el.offsetWidth
+
+                    el.style.opacity=1
+                    el.style.transform = 'translate(600px,-20px)'
+                    el.style.transition = 'all 3s'
+
+                    done();
+                },
+                afterEnter(el) { 
+                    // this.LYB=!this.LYB
+                },
+
+                //删除商品
+                del(name) {
+                    this.list.some((item, i) => {
+                        if (item.name == name) {
+                            item.show = false;
+                            this.list.splice(i, 1);
+                            return this.list;
+                        }
+                    })
+                },
+                //关键字搜索商品
+                search(keywords) {
+                    var newList = [];
+                    this.list.filter(item => {
+                        if (item.name.includes(keywords)) {
+                            newList.push(item);
+                        }
+                    })
+                    return newList;
+                },
+                //减少数量
+                reduce(name) {
+                    this.list.forEach(item => {
+                        if (item.name == name) {
+                            if (item.quantity <= 0) {
+                                alert('蟹老板跑路了')
+                                item.quantity = 0;
+                                item.total = 0;
+                            } else {
+                                item.quantity--;
+                                item.total = item.quantity * item.price;
+
+                            }
+                        }
+                    });
+                },
+                //增加数量
+                add(name) {
+                    this.list.forEach(item => {
+                        if (item.name == name) {
+                            item.quantity++;
+                            item.total = item.quantity * item.price;
+
+                        }
+                    })
+                },
+                //全选 复选框
+                allChecked() {
+                    flag = true;
+                }    
+            },
+            computed: {
+                totalPrice: function () {
+                    var top = 0;
+                    for (var i = 0; i < this.list.length; i++) {
+                        top += this.list[i].total
+                    }
+                    return top;
+                },
+                giao: function () {
+                    var quick = 0;
+                    for (var i = 0; i < this.list.length; i++) {
+                        quick += this.list[i].quantity;
+                    }
+                    return quick;
+                }
+            },
+
+        })
+
+    </script>
+</body>
+
+</html>

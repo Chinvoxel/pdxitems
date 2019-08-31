@@ -1,0 +1,135 @@
+  /* 初始化样式  优化兼容性 易于开发  */
+  * {
+      padding: 0;
+      margin: 0;
+      color: rgb(58, 55, 55);
+  }
+
+  a {
+      color: rgb(58, 55, 55);
+  }
+
+  a:hover {
+      color: rgb(216, 88, 88);
+  }
+
+  ul,
+  li {
+      list-style: none;
+  }
+
+  #app {
+      font-weight: bold;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  /* 解决vue数据引入页面加载的闪烁问题 */
+  [v-cloak] {
+      display: none;
+  }
+
+  /* 导入字体图标 */
+  @font-face {
+      font-family: store_font_icon;
+      src:
+          url(../../bootstrap-3.3.7/fonts/glyphicons-halflings-regular.woff) format('woff'),
+          url(../../bootstrap-3.3.7/fonts/glyphicons-halflings-regular.ttf) format('truetype'),
+          url(../../bootstrap-3.3.7/fonts/glyphicons-halflings-regular.svg) format('svg'),
+          url(../../bootstrap-3.3.7/fonts/glyphicons-halflings-regular.eot) format('embedded-opentype');
+  }
+
+  .store_icon {
+      font-family: store_font_icon;
+  }
+
+  /* 字体图标设置 */
+  #nav_store .nav_logo {
+      position: absolute;
+      top: 25px;
+      left: 22px;
+  }
+
+  #nav_store .nav_logo::before {
+      content: '\e010';
+  }
+
+  #nav_store .nav_login::after {
+      content: '\e008';
+  }
+
+  #nav_store .nav_login {
+      position: absolute;
+      right: 22px;
+      top: 25px;
+  }
+  /* 付款 */
+  .anipay .icon_pay::after{
+      content: '\e039';
+  }
+  .anipay{
+    font-size: 100px;
+  }
+  #nav_store {
+      position: relative;
+  }
+
+  #nav_store .nav_hot1:hover {
+      color: rgb(58, 55, 55);
+  }
+
+  #nav_store a {
+      box-sizing: border-box;
+      padding: 25px 45px;
+  }
+
+  #nav_store label {
+      position: absolute;
+      box-sizing: border-box;
+      margin-top: 23px;
+      margin-left: -30px;
+  }
+
+  /* 商品内容 */
+  /* 调整第一列按钮为位置 */
+  .main_content {
+      position: relative;
+  }
+
+  .main_content input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 10px;
+  }
+
+  /* 设置列表中除第一个其他文字水平和垂直居中 */
+  .main_content th:not(:first-child) {
+      text-align: center;
+      vertical-align: middle;
+  }
+
+  .main_content td:not(:first-child) {
+      text-align: center;
+      vertical-align: middle;
+  }
+
+  /* 商品数量显示框规定宽高 */
+  .fix_size {
+      box-sizing: border-box;
+      height: 34px;
+      width: 40px;
+  }
+
+  .fix_total {
+      box-sizing: border-box;
+      width: 150px;
+      height: 46px;
+  }
+
+
+
+
+
+
+
+ 
